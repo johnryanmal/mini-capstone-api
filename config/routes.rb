@@ -5,5 +5,8 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   get '/products' => 'products#index'
+  post '/products' => 'products#create'
   get '/product/:id' => 'products#show'
+  patch '/product/:id' => 'products#update'
+  delete '/product/:id' => 'products#destroy'
 end

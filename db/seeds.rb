@@ -8,12 +8,5 @@
 
 
 100.times do
-  Product
-  .new(
-    name: Faker::Commerce.product_name,
-    description: 'No description.',
-    price: Faker::Commerce.price,
-    image_url: Faker::Internet.url(host: 'example.com', path: '/images/' + Faker::Internet.uuid)
-  )
-  .save
+  Product.create_fake
 end
