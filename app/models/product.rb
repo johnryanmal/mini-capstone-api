@@ -9,17 +9,29 @@ class Product < ApplicationRecord
   end
 
   def created_at_f
-    created_at.strftime("%B %e, %Y")
+    created_at.strftime("%B%e, %Y")
   end
 
   def updated_at_f
-    updated_at.strftime("%B %e, %Y")
+    updated_at.strftime("%B%e, %Y")
   end
 
   def serialize
-    to_json(
+    as_json(
       #only: [:id, :name, :description, :price, :image_url],
-      methods: [:created_at_f, :updated_at_f]
+      methods: [:is_discounted?, :tax, :total, :created_at_f, :updated_at_f]
     )
+  end
+
+  def is_discounted?
+    price < 10
+  end
+
+  def tax
+    price * 1.09
+  end
+
+  def total
+    price + tax
   end
 end
