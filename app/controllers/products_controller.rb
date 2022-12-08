@@ -1,10 +1,10 @@
 class ProductsController < ApplicationController
   def index
-    render json: Product.all
+    render json: Product.all.map{ |product| product.serialize }
   end
 
   def create_fake
-    render json: Product.create_fake
+    render json: Product.create_fake.serialize
   end
 
   def create
@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
         :image_url,
         :description
       )
-    )
+    ).serialize
   end
 
   def show
@@ -23,10 +23,10 @@ class ProductsController < ApplicationController
       params.permit(:id)
     )
     if product
-      render json: product
+      render json: product.serialize
     else
       p 'not found'
-      render text: "Could not find product."
+      render json: "Could not find product.".to_json
     end
   end
 
@@ -43,9 +43,9 @@ class ProductsController < ApplicationController
           :description
         )
       )
-      render json: product
+      render json: product.serialize
     else
-      render text: "Could not find product."
+      render json: "Could not find product.".to_json
     end
   end
 
@@ -53,9 +53,9 @@ class ProductsController < ApplicationController
     product = Product.find_by(params.permit(:id))
     if product
       product.destroy
-      render text: "Deleted product."
+      render json: "Deleted product.".to_json
     else
-      render text: "Could not find product."
+      render json: "Could not find product.".to_json
     end
   end
 end

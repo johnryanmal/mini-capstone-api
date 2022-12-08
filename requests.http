@@ -11,10 +11,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/product/0
+GET http://localhost:3000/products/1
 
 ###
-PATCH http://localhost:3000/product/181
+PATCH http://localhost:3000/products/181
 Content-Type: application/json
 
 {
@@ -22,4 +22,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:3000/product/181
+DELETE  http://localhost:3000/products/181
