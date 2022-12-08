@@ -28,7 +28,7 @@ class Product < ApplicationRecord
   end
 
   def tax
-    price * 1.09
+    price * 0.09
   end
 
   def total
