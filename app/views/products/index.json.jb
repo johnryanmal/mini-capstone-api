@@ -1,0 +1,3 @@
+@products.map do |product|
+  product.serialize
+end

@@ -18,7 +18,7 @@ class Product < ApplicationRecord
 
   def serialize
     as_json(
-      #only: [:id, :name, :description, :price, :image_url],
+      #only: [:id, :name, :description, :price, :stock, :image_url],
       methods: [:is_discounted?, :tax, :total, :created_at_f, :updated_at_f]
     )
   end

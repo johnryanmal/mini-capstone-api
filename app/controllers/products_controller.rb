@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   def index
-    render json: Product.all.map{ |product| product.serialize }
+    @products = Product.all
+    render template: 'products/index'
   end
 
   def create_fake
@@ -19,11 +20,11 @@ class ProductsController < ApplicationController
   end
 
   def show
-    product = Product.find_by(
+    @product = Product.find_by(
       params.permit(:id)
     )
-    if product
-      render json: product.serialize
+    if @product
+      render template: 'products/show'
     else
       p 'not found'
       render json: "Could not find product.".to_json
