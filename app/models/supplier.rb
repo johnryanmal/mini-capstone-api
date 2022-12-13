@@ -11,4 +11,19 @@ class Supplier < ApplicationRecord
       phone_number: Faker::PhoneNumber.phone_number
     )
   end
+
+  def created_at_f
+    created_at.strftime("%B%e, %Y")
+  end
+
+  def updated_at_f
+    updated_at.strftime("%B%e, %Y")
+  end
+
+  def serialize
+    as_json(
+      #only: [:id, :name, :description, :price, :stock, :image_url],
+      methods: [:created_at_f, :updated_at_f]
+    )
+  end
 end
