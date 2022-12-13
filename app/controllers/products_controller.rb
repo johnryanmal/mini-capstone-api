@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
   end
 
   def create_fake
-    render json: Product.create_fake.serialize
+    render json: Product.create_fake.deep_serialize
   end
 
   def create
@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
       params.permit(
         :name,
         :price,
-        :image_url,
         :description
       )
     )
@@ -47,12 +46,11 @@ class ProductsController < ApplicationController
         params.permit(
           :name,
           :price,
-          :image_url,
           :description
         )
       )
       if updated
-        render json: product.serialize
+        render json: product.deep_serialize
       else
         render json: "Failed to update product.".to_json, status: :internal_server_error
       end

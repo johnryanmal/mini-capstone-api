@@ -18,7 +18,7 @@ class SuppliersController < ApplicationController
     saved = supplier.save
 
     if saved
-      render json: supplier.serialize
+      render json: supplier.deep_serialize
     else
       render json: supplier.error_messages, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class SuppliersController < ApplicationController
       params.permit(:id)
     )
     if supplier
-      render json: supplier.serialize
+      render json: supplier.deep_serialize
     else
       p 'not found'
       render json: "Could not find supplier.".to_json
@@ -49,7 +49,7 @@ class SuppliersController < ApplicationController
         )
       )
       if updated
-        render json: supplier.serialize
+        render json: supplier.deep_serialize
       else
         render json: "Failed to update supplier.".to_json, status: :internal_server_error
       end

@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :supplier
+  has_many :images
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :price, presence: true
@@ -16,7 +17,6 @@ class Product < ApplicationRecord
       name: Faker::Commerce.product_name,
       description: 'No description.',
       price: Faker::Commerce.price,
-      image_url: Faker::Internet.url(host: 'example.com', path: '/images/' + Faker::Internet.uuid),
       stock: 1,
       supplier_id: Supplier.all.sample&.id
     )
@@ -30,11 +30,28 @@ class Product < ApplicationRecord
     updated_at.strftime("%B %e, %Y")
   end
 
-  def serialize
-    as_json(
-      #only: [:id, :name, :description, :price, :stock, :image_url],
+  def view
+    {
       methods: [:is_discounted?, :tax, :total, :created_at_f, :updated_at_f]
-    )
+    }
+  end
+
+  def deep_view
+    {
+      methods: view[:methods] + [:images, :supplier_f]
+    }
+  end
+
+  def serialize
+    as_json(view)
+  end
+
+  def deep_serialize
+    as_json(deep_view)
+  end
+
+  def supplier_f
+    supplier.serialize
   end
 
   def is_discounted?

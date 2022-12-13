@@ -24,10 +24,27 @@ class Supplier < ApplicationRecord
     updated_at.strftime("%B %e, %Y")
   end
 
-  def serialize
-    as_json(
-      #only: [:id, :name, :description, :price, :stock, :image_url],
+  def view
+    {
       methods: [:created_at_f, :updated_at_f]
-    )
+    }
+  end
+
+  def deep_view
+    {
+      methods: view[:methods] + [:products_f]
+    }
+  end
+
+  def serialize
+    as_json(view)
+  end
+
+  def deep_serialize
+    as_json(deep_view)
+  end
+
+  def products_f
+    products.map { |product| product.serialize }
   end
 end
