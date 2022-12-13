@@ -1,4 +1,8 @@
 class Supplier < ApplicationRecord
+  has_many :products
+  validates :name, presence: true
+  validates :name, uniqueness: true
+  
   def self.create_fake
     name = Faker::Commerce.brand
     create(

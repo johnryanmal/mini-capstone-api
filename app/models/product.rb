@@ -1,4 +1,5 @@
 class Product < ApplicationRecord
+  belongs_to :supplier
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :price, presence: true
@@ -12,7 +13,8 @@ class Product < ApplicationRecord
       description: 'No description.',
       price: Faker::Commerce.price,
       image_url: Faker::Internet.url(host: 'example.com', path: '/images/' + Faker::Internet.uuid),
-      stock: 1
+      stock: 1,
+      supplier_id: Supplier.all.sample&.id
     )
   end
 
