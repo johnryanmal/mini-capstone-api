@@ -40,15 +40,19 @@ class SuppliersController < ApplicationController
     supplier = Supplier.find_by(
       params.permit(:id)
     )
-    updated = supplier.update(
-      params.permit(
-        :name,
-        :email,
-        :phone_number
+    if supplier
+      updated = supplier.update(
+        params.permit(
+          :name,
+          :email,
+          :phone_number
+        )
       )
-    )
-    if updated
-      render json: supplier.serialize
+      if updated
+        render json: supplier.serialize
+      else
+        render json: "Failed to update supplier.".to_json, status: :internal_server_error
+      end
     else
       render json: "Could not find supplier.".to_json
     end

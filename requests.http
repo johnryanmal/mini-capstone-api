@@ -1,6 +1,7 @@
+### product index
 GET http://localhost:3000/products.json
 
-###
+### product create
 POST http://localhost:3000/products.json
 Content-Type: application/json
 
@@ -10,10 +11,10 @@ Content-Type: application/json
   "description": "No description."
 }
 
-###
-GET http://localhost:3000/products/102.json
+### product show
+GET http://localhost:3000/products/1.json
 
-###
+### product update
 PATCH http://localhost:3000/products/102.json
 Content-Type: application/json
 
@@ -21,5 +22,32 @@ Content-Type: application/json
   "price": 56
 }
 
-###
+### product destroy
 DELETE  http://localhost:3000/products/102.json
+
+### supplier index
+GET http://localhost:3000/suppliers.json
+
+### supplier create
+POST http://localhost:3000/suppliers.json
+Content-Type: application/json
+
+{
+  "name": "Brand",
+  "email": "brand@example.com",
+  "phone_number": "555-123-4567"
+}
+
+### supplier show
+GET http://localhost:3000/suppliers/1.json
+
+### supplier update
+PATCH http://localhost:3000/suppliers/1.json
+Content-Type: application/json
+
+{
+  "name": "Brand2"
+}
+
+### supplier destroy
+DELETE http://localhost:3000/suppliers/1.json

@@ -7,6 +7,10 @@ class Product < ApplicationRecord
   validates :description, presence: true
   validates :description, length: { in: 10..500 }
 
+  def error_messages
+    errors.full_messages
+  end
+
   def self.create_fake
     Product.create(
       name: Faker::Commerce.product_name,
@@ -19,11 +23,11 @@ class Product < ApplicationRecord
   end
 
   def created_at_f
-    created_at.strftime("%B%e, %Y")
+    created_at.strftime("%B %e, %Y")
   end
 
   def updated_at_f
-    updated_at.strftime("%B%e, %Y")
+    updated_at.strftime("%B %e, %Y")
   end
 
   def serialize
@@ -31,10 +35,6 @@ class Product < ApplicationRecord
       #only: [:id, :name, :description, :price, :stock, :image_url],
       methods: [:is_discounted?, :tax, :total, :created_at_f, :updated_at_f]
     )
-  end
-
-  def error_messages
-    errors.full_messages
   end
 
   def is_discounted?

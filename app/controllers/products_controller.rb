@@ -42,16 +42,20 @@ class ProductsController < ApplicationController
     product = Product.find_by(
       params.permit(:id)
     )
-    updated = product.update(
-      params.permit(
-        :name,
-        :price,
-        :image_url,
-        :description
+    if product
+      updated = product.update(
+        params.permit(
+          :name,
+          :price,
+          :image_url,
+          :description
+        )
       )
-    )
-    if updated
-      render json: product.serialize
+      if updated
+        render json: product.serialize
+      else
+        render json: "Failed to update product.".to_json, status: :internal_server_error
+      end
     else
       render json: "Could not find product.".to_json
     end
