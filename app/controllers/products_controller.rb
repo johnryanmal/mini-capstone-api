@@ -9,14 +9,21 @@ class ProductsController < ApplicationController
   end
 
   def create
-    render json: Product.create(
+    product = Product.new(
       params.permit(
         :name,
         :price,
         :image_url,
         :description
       )
-    ).serialize
+    )
+    saved = product.save
+
+    if saved
+      render json: product.serialize
+    else
+      render json: product.error_messages, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -35,15 +42,15 @@ class ProductsController < ApplicationController
     product = Product.find_by(
       params.permit(:id)
     )
-    if product
-      product.update(
-        params.permit(
-          :name,
-          :price,
-          :image_url,
-          :description
-        )
+    updated = product.update(
+      params.permit(
+        :name,
+        :price,
+        :image_url,
+        :description
       )
+    )
+    if updated
       render json: product.serialize
     else
       render json: "Could not find product.".to_json
@@ -54,7 +61,11 @@ class ProductsController < ApplicationController
     product = Product.find_by(params.permit(:id))
     if product
       product.destroy
-      render json: "Deleted product.".to_json
+      if product.destroyed?
+        render json: "Deleted product.".to_json
+      else
+        render json: "Failed to delete product.".to_json, status: :internal_server_error
+      end
     else
       render json: "Could not find product.".to_json
     end
