@@ -51,3 +51,23 @@ Content-Type: application/json
 
 ### supplier destroy
 DELETE http://localhost:3000/suppliers/1.json
+
+### user create
+POST http://localhost:3000/users.json
+Content-Type: application/json
+
+{
+  "name": "Anon",
+  "email": "anon@example.com",
+  "password": "password",
+  "password_confirmation": "password"
+}
+
+### session create (login)
+POST http://localhost:3000/sessions.json
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "password"
+}

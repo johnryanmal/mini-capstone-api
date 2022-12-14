@@ -66,6 +66,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    bcrypt (3.1.18)
     bootsnap (1.15.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -85,6 +86,7 @@ GEM
     irb (1.5.1)
       reline (>= 0.3.0)
     jb (0.8.0)
+    jwt (2.5.0)
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -163,10 +165,12 @@ PLATFORMS
   arm64-darwin-22
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   debug
   faker
   jb
+  jwt
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
