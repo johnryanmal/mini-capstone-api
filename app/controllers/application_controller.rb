@@ -22,4 +22,12 @@ class ApplicationController < ActionController::API
       render json: {}, status: :unauthorized
     end
   end
+
+  def check_user(msg="You aren't logged in")
+    if current_user
+      yield
+    else
+      render json: {error: msg}, status: :unauthorized
+    end
+  end
 end
