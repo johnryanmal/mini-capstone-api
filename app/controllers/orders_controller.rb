@@ -39,10 +39,14 @@ class OrdersController < ApplicationController
   def show
     check_user do
       order = Order.find_by(params.permit(:id))
-      if order&.user_id == current_user.id
-        render json: order.deep_serialize
+      unless order
+        render json: {msg: "Couldn't find order."}, status: :internal_server_error
       else
-        render json: {msg: "You don't have access to that order"}, status: :unauthorized
+        if order.user_id == current_user.id
+        render json: order.deep_serialize
+        else
+          render json: {msg: "You don't have access to that order"}, status: :unauthorized
+        end
       end
     end
   end
