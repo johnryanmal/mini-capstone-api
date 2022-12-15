@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
       unless product
         render json: {msg: "Couldn't find product."}, status: :internal_server_error
       else
-        quantity - params[:quantity]
+        quantity = params[:quantity]
         order = Order.new(
           params
           .permit(
