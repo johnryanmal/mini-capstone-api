@@ -8,10 +8,6 @@ class OrdersController < ApplicationController
 
   def create
     product = Product.find_by(id: params[:product_id])
-    pp product
-    pp product.price
-    pp product.tax
-    pp product.total
 
     check_user do
       render json: Order.create(
