@@ -7,22 +7,31 @@ class OrdersController < ApplicationController
   end
 
   def create
-    product = Product.find_by(id: params[:product_id])
-
     check_user do
-      render json: Order.create(
-        params
-        .permit(
-          :product_id,
-          :quantity
+      product = Product.find_by(id: params[:product_id])
+      unless product
+        render json: {msg: "Couldn't find product."}, status: :internal_server_error
+      else
+        order = Order.new(
+          params
+          .permit(
+            :product_id,
+            :quantity
+          )
+          .merge(
+            user_id: current_user.id,
+            subtotal: product.price,
+            tax: product.tax,
+            total: product.total
+          )
         )
-        .merge(
-          user_id: current_user.id,
-          subtotal: product.price,
-          tax: product.tax,
-          total: product.total
-        )
-      )
+        saved = order.save
+        if saved
+          render json: {msg: "Order created."}
+        else
+          render json: {msg: "Failed to create order."}, status: :internal_server_error
+        end
+      end
     end
   end
 

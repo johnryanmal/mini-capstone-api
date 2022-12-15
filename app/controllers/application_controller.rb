@@ -27,7 +27,7 @@ class ApplicationController < ActionController::API
     if current_user
       yield
     else
-      render json: {error: msg}, status: :unauthorized
+      render json: {msg: msg}, status: :unauthorized
     end
   end
 end
