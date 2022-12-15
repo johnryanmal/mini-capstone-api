@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
       unless product
         render json: {msg: "Couldn't find product."}, status: :internal_server_error
       else
+        quantity - params[:quantity]
         order = Order.new(
           params
           .permit(
@@ -20,9 +21,9 @@ class OrdersController < ApplicationController
           )
           .merge(
             user_id: current_user.id,
-            subtotal: product.price,
-            tax: product.tax,
-            total: product.total
+            subtotal: product.price * quantity,
+            tax: product.tax * quantity,
+            total: product.total * quantity
           )
         )
         saved = order.save
