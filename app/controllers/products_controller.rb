@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_admin, only: [:create, :update, :destroy]
   def index
     @products = Product.all
     render template: 'products/index'
@@ -15,11 +16,14 @@ class ProductsController < ApplicationController
         :price,
         :description
       )
+      .merge(
+        supplier_id: params[:supplier]
+      )
     )
     saved = product.save
 
     if saved
-      render json: product.serialize
+      render json: product.deep_serialize
     else
       render json: product.error_messages, status: :unprocessable_entity
     end
@@ -47,6 +51,9 @@ class ProductsController < ApplicationController
           :name,
           :price,
           :description
+        )
+        .merge(
+          supplier_id: params[:supplier]
         )
       )
       if updated

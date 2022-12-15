@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    def current_user
+  def current_user
     auth_headers = request.headers["Authorization"]
     if auth_headers.present? && auth_headers[/(?<=\A(Bearer ))\S+\z/]
       token = auth_headers[/(?<=\A(Bearer ))\S+\z/]
@@ -19,7 +19,13 @@ class ApplicationController < ActionController::API
 
   def authenticate_user
     unless current_user
-      render json: {}, status: :unauthorized
+      render json: {msg: "You aren't logged in"}, status: :unauthorized
+    end
+  end
+
+  def authenticate_admin
+    unless current_user&.admin?
+      render json: {msg: "You aren't an admin"}, status: :unauthorized
     end
   end
 
