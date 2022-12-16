@@ -41,7 +41,7 @@ class Product < ApplicationRecord
 
   def deep_view
     {
-      methods: view[:methods] + [:images, :supplier_f]
+      methods: view[:methods] + [:images, :supplier_f, :categories]
     }
   end
 
