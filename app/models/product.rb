@@ -2,7 +2,7 @@ class Product < ApplicationRecord
   belongs_to :supplier
   has_many :images
   has_many :orders
-  has_many :tags
+  has_many :categories, through: :tags
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :price, presence: true
