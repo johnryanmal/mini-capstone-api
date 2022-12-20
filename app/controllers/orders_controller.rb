@@ -8,31 +8,64 @@ class OrdersController < ApplicationController
     end
   end
 
+  # def create
+  #   check_user do
+  #     product = Product.find_by(id: params[:product_id])
+  #     unless product
+  #       render json: {msg: "Couldn't find product."}, status: :internal_server_error
+  #     else
+  #       quantity = params[:quantity]
+  #       order = Order.new(
+  #         params
+  #         .permit(
+  #           :product_id,
+  #           :quantity
+  #         )
+  #         .merge(
+  #           user_id: current_user.id,
+  #           subtotal: product.price * quantity,
+  #           tax: product.tax * quantity,
+  #           total: product.total * quantity
+  #         )
+  #       )
+  #       saved = order.save
+  #       if saved
+  #         render json: {msg: "Order created."}
+  #       else
+  #         render json: {msg: "Failed to create order."}, status: :internal_server_error
+  #       end
+  #     end
+  #   end
+  # end
+
   def create
     check_user do
-      product = Product.find_by(id: params[:product_id])
-      unless product
-        render json: {msg: "Couldn't find product."}, status: :internal_server_error
+      carted_products = CartedProduct.where(user_id: current_user.id, order_id: nil)
+      if carted_products.empty?
+        render json: {msg: "Your cart is empty."}, status: :internal_server_error
       else
-        quantity = params[:quantity]
+        subtotal = 0
+        carted_products.each do |carted_product|
+          subtotal += carted_product.product.price * carted_product.quantity
+        end
+        tax = subtotal * 0.09
+        total = subtotal + tax
+
         order = Order.new(
-          params
-          .permit(
-            :product_id,
-            :quantity
-          )
-          .merge(
-            user_id: current_user.id,
-            subtotal: product.price * quantity,
-            tax: product.tax * quantity,
-            total: product.total * quantity
-          )
+          user_id: current_user.id,
+          subtotal: subtotal,
+          tax: tax,
+          total: total
         )
         saved = order.save
+
         if saved
-          render json: {msg: "Order created."}
+          carted_products.each do |carted_product|
+            carted_product.update(order_id: order.id)
+          end
+          render json: order
         else
-          render json: {msg: "Failed to create order."}, status: :internal_server_error
+          render json: order.errors.full_messages
         end
       end
     end

@@ -14,7 +14,7 @@ class CartedProductsController < ApplicationController
         )
         .merge(
           user_id: current_user.id,
-          order_id: nil
+          order_id: 7
         )
       )
     end
