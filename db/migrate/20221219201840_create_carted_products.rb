@@ -4,7 +4,7 @@ class CreateCartedProducts < ActiveRecord::Migration[7.0]
       t.references :user, null: false, foreign_key: true
       t.references :product, null: false, foreign_key: true
       t.integer :quantity
-      t.references :order, null: false, foreign_key: true
+      t.references :order
 
       t.timestamps
     end

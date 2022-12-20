@@ -94,3 +94,14 @@ Content-Type: application/json
 GET http://localhost:3000/orders/9.json
 #Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE2NzEyMTI2MTN9.WOWunKc1a-bSoToGxkP8XQ54pxvvEMvjqlGPbEx9hN8
 #Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NzEyMTMyMjB9.C5y1a9CgNyZPrSluFEt8-d_vm9QnmPaPSpFOB_6SuF4
+
+
+### carted product create
+POST http://localhost:3000/carted-products.json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE2NzE1NjgwNzR9.qpDvK7IPdYX1wloUkKhEmmaCaD67ybr3gbeL02u6aag
+Content-Type: application/json
+
+{
+  "product_id": 1,
+  "quantity": 1
+}
