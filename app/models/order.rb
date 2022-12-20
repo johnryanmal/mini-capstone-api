@@ -10,7 +10,7 @@ class Order < ApplicationRecord
 
   def deep_view
     {
-      methods: view[:methods] + [:products_f]
+      methods: view[:methods] + [:carted_products_f]
     }
   end
 
@@ -22,7 +22,7 @@ class Order < ApplicationRecord
     as_json(deep_view)
   end
 
-  def products_f
-    carted_products.map(&:serialize)
+  def carted_products_f
+    carted_products.map(&:deep_serialize)
   end
 end

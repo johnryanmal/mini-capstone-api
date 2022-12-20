@@ -1,7 +1,7 @@
 class CartedProductsController < ApplicationController
   def index
     check_user do
-      render json: CartedProduct.where(user_id: current_user.id, order_id: nil)
+      render json: CartedProduct.where(user_id: current_user.id, order_id: nil).map(&:deep_serialize)
     end
   end
 
