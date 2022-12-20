@@ -13,8 +13,7 @@ class CartedProductsController < ApplicationController
           :quantity
         )
         .merge(
-          user_id: current_user.id,
-          order_id: 7
+          user_id: current_user.id
         )
       )
     end
