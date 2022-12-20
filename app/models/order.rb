@@ -1,5 +1,4 @@
 class Order < ApplicationRecord
-  #belongs_to :product
   has_many :carted_products
 
   def view
@@ -11,7 +10,7 @@ class Order < ApplicationRecord
 
   def deep_view
     {
-      methods: view[:methods] + [:product_f]
+      methods: view[:methods] + [:products_f]
     }
   end
 
@@ -23,7 +22,7 @@ class Order < ApplicationRecord
     as_json(deep_view)
   end
 
-  def product_f
-    product.serialize
+  def products_f
+    carted_products.map(&:serialize)
   end
 end
